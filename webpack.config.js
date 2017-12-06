@@ -11,10 +11,21 @@ const ABSOLUTE_PATH = path.join(__dirname, 'dist');
 
 let PROD;
 
-if(process.env.NODE_ENV === 'development'){
-    PROD = false;
-} else {
+if(process.env.NODE_ENV === 'prod'){
     PROD = true;
+    CSSExtracter = ExtractTextPlugin.extract({
+        use: [{
+            loader:'css-loader',
+            options:{
+                sourceMap:true
+            }
+        }],
+        fallback: 'style-loader',
+        publicPath: './dist',
+    });
+} else {
+    PROD = false;
+    CSSExtracter = ['style-loader', 'css-loader']
 }
 
 const VENDOR_LIBS=[
@@ -40,16 +51,7 @@ module.exports=(env)=>{
             rules:[
                 {
                     test: /\.css$/,
-                    use: ExtractTextPlugin.extract({
-                        use: [{
-                            loader:'css-loader',
-                            options:{
-                                sourceMap:true
-                            }
-                        }],
-                        fallback: 'style-loader',
-                        publicPath: './dist',
-                    })
+                    use: CSSExtracter
                 },
                 {
                     loader: 'babel-loader',
