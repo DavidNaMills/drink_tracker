@@ -16,7 +16,7 @@ Includes:
 ## Included Scripts
 
 to run: npm run
-* test          Run the test suit
+* test          /t/t Run the test suit
 * serve         Serve content using Live-server
 * clean         Deletes everything in the 'dist' folder
 * build:dev     Runs webpack in development mode
