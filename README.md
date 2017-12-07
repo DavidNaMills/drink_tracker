@@ -16,12 +16,12 @@ Includes:
 ## Included Scripts
 
 to run: npm run
-* test          /t/t Run the test suit
-* serve         Serve content using Live-server
-* clean         Deletes everything in the 'dist' folder
-* build:dev     Runs webpack in development mode
-* build:prod    Runs webpack in production mode. minifies JS and CSS
-*dev-server     Runs webpack-dev -server
+* test          (Run the test suit)
+* serve         (Serve content using Live-server)
+* clean         (Deletes everything in the 'dist' folder)
+* build:dev     (Runs webpack in development mode)
+* build:prod    (Runs webpack in production mode. minifies JS and CSS)
+*dev-server     (Runs webpack-dev -server)
 
 
 ### Future Improvements
