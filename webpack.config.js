@@ -9,24 +9,23 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const ABSOLUTE_PATH = path.join(__dirname, 'dist');
 
+
+
 let PROD;
 
 if(process.env.NODE_ENV === 'prod'){
     PROD = true;
-    CSSExtracter = ExtractTextPlugin.extract({
-        use: [{
-            loader:'css-loader',
-            options:{
-                sourceMap:true
-            }
-        }],
-        fallback: 'style-loader',
-        publicPath: './dist',
-    });
+
 } else {
     PROD = false;
-    CSSExtracter = ['style-loader', 'css-loader']
 }
+
+
+const CSSExtract = new ExtractTextPlugin({
+    filename: PROD ? 'styles.[chunkhash].css': 'styles.css',
+    allChunks:true
+});
+
 
 const VENDOR_LIBS=[
     "react",
@@ -50,8 +49,25 @@ module.exports=(env)=>{
         module:{
             rules:[
                 {
-                    test: /\.css$/,
-                    use: CSSExtracter
+                    rules: [{
+                        test:/\.s?css$/,
+                        use: CSSExtract.extract({
+                            use: [
+                              {
+                                loader: 'css-loader',
+                                options: {
+                                  sourceMap: true
+                                }
+                              },
+                              {
+                                loader: 'sass-loader',
+                                options: {
+                                  sourceMap: true
+                                }
+                              }
+                            ]
+                          })
+                    }]
                 },
                 {
                     loader: 'babel-loader',
@@ -68,12 +84,7 @@ module.exports=(env)=>{
         },
         
         plugins: [
-            new UglifyJsPlugin({
-                test: /\.js$/,
-                uglifyOptions:{
-                    mangle:PROD
-                }
-            }),
+            CSSExtract,
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, 'src', 'template.html'),
                 filename: 'home.html',
@@ -84,19 +95,20 @@ module.exports=(env)=>{
                     minifyJS:PROD,
                 }
             }),
+            new UglifyJsPlugin({
+                test: /\.js$/,
+                uglifyOptions:{
+                    mangle:PROD
+                }
+            }),
             new webpack.optimize.CommonsChunkPlugin({
                 name: ['vendor', 'manifest']
-            }),
-            new ExtractTextPlugin({
-                filename: PROD? 'styles.[chunkhash]css': 'styles.css',
-                allChunks:true
             }),
             new purify({
                 // Give paths to parse for rules. These should be absolute!
                 paths:glob.sync(path.join(__dirname, 'src', '*.js')),
                 purifyOptions:{
                     minify:PROD,
-                    log:true
                 }
             })
         ]

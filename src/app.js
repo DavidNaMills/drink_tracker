@@ -1,3 +1,4 @@
+import './styles/test.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './components/Main';
@@ -5,7 +6,7 @@ import Main from './components/Main';
 const app = document.getElementById('app');
 
 const jsx = (
-    <div>
+    <div className="test">
         <Main />
     </div>
 );

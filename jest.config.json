@@ -3,5 +3,10 @@
         "raf/polyfill",
         "<rootDir>/src/tests/setupFile.js"
     ],
-    "snapshotSerializers":["enzyme-to-json/serializer"]
+    "snapshotSerializers":["enzyme-to-json/serializer"],
+    "transform": {
+        "^.+\\.(css)$": "<rootDir>/node_modules/jest-css-modules",
+        "^.+\\.jsx?$": "babel-jest"
+    }
 }
+
