@@ -1,4 +1,5 @@
-import './styles/test.scss';
+import './styles/Styles.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './components/Main';
